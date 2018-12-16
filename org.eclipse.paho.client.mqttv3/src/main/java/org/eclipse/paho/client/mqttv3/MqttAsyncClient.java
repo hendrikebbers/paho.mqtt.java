@@ -21,19 +21,6 @@
 
 package org.eclipse.paho.client.mqttv3;
 
-import java.lang.reflect.Field;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLSocketFactory;
-
 import org.eclipse.paho.client.mqttv3.internal.ClientComms;
 import org.eclipse.paho.client.mqttv3.internal.ConnectActionListener;
 import org.eclipse.paho.client.mqttv3.internal.DisconnectedMessageBuffer;
@@ -53,6 +40,19 @@ import org.eclipse.paho.client.mqttv3.logging.LoggerFactory;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 import org.eclipse.paho.client.mqttv3.util.Debug;
+
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLSocketFactory;
+import java.lang.reflect.Field;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Hashtable;
+import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Lightweight client for talking to an MQTT server using non-blocking methods
@@ -121,7 +121,7 @@ public class MqttAsyncClient implements IMqttAsyncClient {
 	private boolean reconnecting = false;
 	private static Object clientLock = new Object(); // Simple lock
 
-	private ScheduledExecutorService executorService;
+	private ExecutorService executorService;
 
 	/**
 	 * Create an MqttAsyncClient that is used to communicate with an MQTT
@@ -441,7 +441,7 @@ public class MqttAsyncClient implements IMqttAsyncClient {
 	 *             if any other problem was encountered
 	 */
 	public MqttAsyncClient(String serverURI, String clientId, MqttClientPersistence persistence,
-			MqttPingSender pingSender, ScheduledExecutorService executorService) throws MqttException {
+			MqttPingSender pingSender, ExecutorService executorService) throws MqttException {
 		final String methodName = "MqttAsyncClient";
 
 		log.setResourceName(clientId);
